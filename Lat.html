@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FF Project Editor</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<html>
+<head>
+    <style>
+		
+		        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #ebebeb;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            background: #A9A9A9;
+        }
+
+
+
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content1 {
+            position: relative;
+            background-color: #fefefe;
+            border-radius: 2px;
+            margin: auto;
+            height: 480px;
+            width: 500px;
+            padding: 0;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+
+
+        /* The Modal (background) */
+        .modal1 {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content2 {
+            position: relative;
+            background-color: #fefefe;
+            border-radius: 2px;
+            margin: auto;
+            height: 400px;
+            width: 300px;
+            padding: 0;
+            border: 1px solid #888;
+            width: 50%;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+            -webkit-animation-name: animatetop;
+            -webkit-animation-duration: 0.4s;
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+
+        /* Add Animation */
+        @-webkit-keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        @keyframes animatetop {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        /* The Close Button */
+        .close {
+            color: white;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        html, body, table {
+            margin: 0;
+            padding: 0;
+        }
+
+        .text-editable {
+            width: 900px;
+            border: 1px solid black;
+            border-radius: 3px
+            /* placeholder:10px */
+        }
+
+        .spanEl {
+            border: 1px solid white;
+        }
+
+        .token-placeholder {
+            display: inline-block;
+            border: 1px dotted #FF4500;
+            vertical-align: center;
+            font-size: 2em;
+            height: 20px;
+            width: 40px;
+        }
+
+        .gfg {
+            border-collapse: separate;
+            border-spacing: 0 8px;
+			text-align:center
+        }
+
+        td {
+            font-size: 18px;
+        }
+
+        th {
+            /* background-color: #000000; */
+            color: white;
+        }
+
+        .popup {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            /* The actual popup */
+            .popup .popuptext {
+                visibility: hidden;
+                width: 200px;
+                height: 600px;
+                font-size: 10px;
+                background-color: #D3D3D3;
+                color: #000000;
+                text-align: left;
+                border-radius: 6px;
+                padding: 8px 0;
+                position: absolute;
+                z-index: 1;
+                bottom: 10%;
+                left: 50%;
+                margin-left: -150px;
+            }
+
+                /* Popup arrow */
+                .popup .popuptext::after {
+                    content: "";
+                    position: absolute;
+                    top: 100%;
+                    left: 50%;
+                    margin-left: -5px;
+                    border-width: 5px;
+                    border-style: solid;
+                    border-color: #555 transparent transparent transparent;
+                }
+
+            /* Toggle this class - hide and show the popup */
+            .popup .show {
+                visibility: visible;
+                -webkit-animation: fadeIn 1s;
+                animation: fadeIn 1s;
+            }
+
+        /* Add animation (fade in the popup) */
+        @-webkit-keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .container {
+            height: 100%;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Faster Filing</title>
+    <link rel='stylesheet' href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+    <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <!--<div class="full-height"  style="text-align:left;">I am a DIV that will stretch to fit the whole width and height of the browser window!</div>-->
+    <div class="container" align="center" style="min-width:1000px;width:auto;glyph-orientation-horizontal:inherit;height:450px;text-align:left;font-size:10px;margin-left:2px;">
+        <div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
+                {{message}}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            {% block body %}{% endblock %}
+        </div>
+        <table  style="background-color: #f2f2f2 ;min-width:700px;margin-left:-4px ;width:auto;min-height:auto;margin-top:2px;margin-bottom:2px">
+            <col style="width:25%">
+            <col style="width:75%">
+            <tr>
+                <th style="font-size: 10px;background-color:#C0C0C0;"><h5> <b style="color:#0066FF;margin-left:4px">Upload Files</b></h5></th>
+                <th style="font-size: 10px;background-color:#C0C0C0">
+                    <h5>
+                        <b style="color:#0066FF;margin-left:4px">Configure Template</b>
+                        <a id="driver" class="btn btn-primary" href="#" data-target="#login" data-toggle="modal" style="background-color:transparent;color:black;border: 1px solid #0066FF;font-size:10px;margin-left:30px;"><b>{{project}} : <u>Submit Header & Description</u></b></a>
+
+                        <div id="login" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <button data-dismiss="modal" class="close">&times;</button>
+                                        <h4>Project Details</h4>
+                                        <form action="http://localhost:5000/{{project}}/description" method="POST">
+                                            <input contenteditable="True" id="Header" type="text" name="Header" style="width:550px;height:30px;border-radius:2px;color:black;"></input>
+                                            <input contenteditable="True" id="Description" type="text" name="Description" style="width:550px;height:200px;border-radius:2px;color:black;"></input>
+                                            <br></br>
+                                            <input class="btn btn-primary" style="font-size:8px;background-color:transparent;color:black;border: 1px solid #0066FF;" type="submit" value="Submit" />
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <a class="btn" href="http://localhost:5000" style="background-color:transparent;color:black;border: 1px solid #0066FF;margin-left:500px;font-size:12px;"><i class="fa fa-home">Home</i></a><h5>
+                </th>
+            </tr>
+
+            <tr>
+                <td>
+                    <div class="container" style="width:280px;height:535px;font-size:10px;color:white;overflow:auto;">
+                        <table class="gfg">
+                            <tr>
+                                <div class="container" style="width:250px;height:200px;margin-left:-15px;font-size:10px;color: black;margin-top:5px">
+
+                                    <form action="http://localhost:5000/{{project}}/input" method="POST"
+                                          enctype="multipart/form-data" id="my-form" target="formDestination">
+                                        <label style="color:black;font-size:12px;"><b>Upload data definition</b></label><input type="file" onchange="this.form.submit()" name="file" />
+                                        {% if  datadefinition!='' %}
+                                        <span>Uploaded data definition is {{datadefinition}}</span>
+                                        {% elif  datadefinition=='' %}
+                                        <span>No data definition has been uploaded</span>
+
+                                        {% endif %}
+                                        <br>
+
+                                    </form>
+									<div>
+									<br></br>
+										<a href="http://127.0.0.1:5000/{{project}}/sortby" onclick="prefunc()" data-modal="myModal12" style="background-color:transparent;color:#0066FF;margin-left: 1px; font-size: 10px;height: 24px; width: 80px; border-radius: 3px;vertical-align: bottom; margin-top: 18px"><u>Customize Data Definition</u></a>
+
+									</div><br/>
+
+                                    <form action="http://localhost:5000/{{project}}/template" method="POST"
+                                          enctype="multipart/form-data" id="my-form">
+                                        <label style="color:black;font-size:12px;"><b>Upload business rules template</b></label><input type="file" onchange="this.form.submit()" name="file" />
+                                        {% if  datatemplate!='' %}
+                                        <span>Uploaded data template is {{datatemplate}}</span>
+                                        {% elif  datatemplate=='' %}
+                                        <span>No data template has been uploaded</span>
+
+                                        {% endif %}
+
+                                    </form>
+
+                                    
+                                 <br /><br/>
+							     </div>
+									<p style="text-align:left;margin-left:0px;color:black;font-size:15px;"><b>Input Column List:</b></p>
+                            </tr> 
+                            {% for col in columns %}
+								
+                            <tr>
+                                <td contenteditable="false" style="text-align:left;word-wrap: break-word;font-size: 10px;color: black;"><span class="token">{{col}}</span></td>
+                            </tr>
+                            {% endfor %}
+
+
+                        </table>
+                    </div>
+                </td>
+
+                <td>
+                    <table>
+					
+                        <tr>
+                            <!--<div class="container" style="width:300px;margin-left:2px;font-size:10px;color:white;">-->
+                            <td>
+                               <form action="http://localhost:5000/{{project}}/configure" method = "POST" id="Cform">
+								<label for="Paragraph" style="color:#0066FF;font-size:13px;">&nbspNarrative Configuration</label>
+								<select id="Paragraph_Config" name="Paragraph_Config" onchange="this.form.submit();" onchange="GetSelectedItem('Paragraph_Config');" style="font-size:13px;border-radius:5px;">
+										<option value="#sp" {% if thing == "#sp" %} selected="selected" {% endif %}>Single Paragraph</option>
+										<option value="#pps" {% if thing == "#pps" %} selected="selected" {% endif %}>Paragraph per sheet</option>
+									<option value="#ppr" {% if thing == "#ppr" %} selected="selected" {% endif %}>Paragraph per input row</option>
+									<option value="#ppbr" {% if thing == "#ppbr" %} selected="selected" {% endif %} >Paragraph by BusinessRule Match</option> 
+								</select>
+								<!--<input class="btn btn-primary" onClick="GetSelectedItem('Paragraph_Config');" style="font-size:8px;" type="submit">-->
+								</form>
+								</td>
+								<td>
+								
+								{% if  thing!='#ppbr' %}
+								
+								<form action="http://localhost:5000/{{project}}/rowbinder" method = "POST" id="rform" name="rform">
+								<label for="row" style="color:#0066FF;font-size:13px;margin-left:2px;">&nbspRow Binder</label>
+								<select id="rowbinder" name="rowbinder" onchange="this.form.submit();" onchange="GetSelectedItem('rowbinder');" style="font-size:13px;border-radius:5px;">
+										<option value="#and" {% if rbind == "#and" %} selected="selected" {% endif %}>and</option>
+										<option value="#full" {% if rbind == "#full" %} selected="selected" {% endif %}>Fullstop (.)</option>
+									<option value="#com" {% if rbind == "#com" %} selected="selected" {% endif %}>Comma (,)</option>
+									<option value="#sem" {% if rbind == "#sem" %} selected="selected" {% endif %} >Semicolon (;)</option>
+								<option value="#comand" {% if rbind == "#comand" %} selected="selected" {% endif %} >Comma & And (,---and)</option>	
+								</select>
+								</form>
+
+
+
+                                {% endif %}
+
+
+                            </td>
+                        </tr>
+                    </table>
+
+
+
+
+                    <div id="table" class="table-editable">
+                        <span class="table-add glyphicon glyphicon-plus" style="cursor: pointer;font-size:15px;color:#0066FF;margin-left :10px;margin-right:22px;">AddTableRow</span>
+                        <div class="container" style="width:1100px;height:400px;margin-left: 2px;overflow:auto;font-size: 8px;">
+                            <table class="gfg">
+                                <col style="width:5%">
+                                <col style="width:35%">
+                                <col style="width:55%">
+                                <col style="width:5%">
+                                <tr style="text-align:center">
+								
+                                    <th style="font-size:14px; border: 1px solid black; height:10px;text-align:center;color:black"><b>S.No</b></th>
+                                    <th style="font-size:14px; border: 1px solid black; height:10px;text-align:center;color:black"><b>Rule</b></th>
+                                    <th style="font-size:14px; border: 1px solid black; height:10px;text-align:center;color:black"><b>Statement</b></th>
+								
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+
+                                {% for item in items %}
+                                <tr>
+                                    <td style="word-wrap: break-word;font-size: 13px;color:black;line-height: 20px;" class="text-editable" contenteditable="true">{{item['Sno']}}</td>
+                                    <td style="word-wrap: break-word;font-size: 13px;color:black;line-height: 20px;vertical-align: bottom;" class="text-editable" contenteditable="true">{{item['Business_Rule']}}</td>&nbsp
+                                    <td style="word-wrap: break-word;font-size: 13px;color:black;line-height: 20px;" class="text-editable" contenteditable="true">{{item['String_Name']}} </td>
+                                    <td>
+                                        <span class="table-up glyphicon glyphicon-arrow-up" style="font-size:15px;color:black;"></span>
+                                        <span class="table-down glyphicon glyphicon-arrow-down" style="font-size:15px;color:black;"></span>
+                                    </td>
+                                    <td> <span class="table-remove glyphicon glyphicon-remove" style="font-size: 8px;color:#3498DB"></span> </td>
+                                </tr>
+                                {% endfor %}
+
+                                <!-- This is our clonable table line -->
+                                <tr class="hide">
+                                    <td contenteditable="true" style="font-size: 13px;color: black;line-height: 20px;" contenteditable="true" class="text-editable"></td>
+                                    <td contenteditable="true" style="font-size: 13px;color: black;line-height: 20px;" class="text-editable" contenteditable="true"></td>
+                                    <td contenteditable="true" style="font-size: 13px;color: black;line-height: 20px;" class="text-editable" contenteditable="true"></td>
+                                    <td>
+                                        <span class="table-up glyphicon glyphicon-arrow-up" style="font-size:15px;color:black;"></span>
+                                        <span class="table-down glyphicon glyphicon-arrow-down" style="font-size:15px;color:black;"></span>
+                                    </td>
+
+                                    <td>
+                                        <span class="table-remove glyphicon glyphicon-remove" style="font-size: 8px;color:#3498DB"></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div>
+                        <table>
+                            
+                            <td style="vertical-align: bottom"><button id="export-btn" class="btn btn-primary" style="background-color:transparent;color:black; height:26px;font-size: 10px;border: 1px solid #0066FF;margin-left: 5px;vertical-align:bottom">&nbspUpdate Rules</button></td>
+                            <td>
+                                <form action="http://localhost:5000/{{project}}/templatedownload" method="GET">
+                                    <button id="export-btn" class="btn btn-primary" style="background-color:transparent;color:black;border: 1px solid #0066FF; height:26px;font-size: 10px;margin-left: 5px;margin-top:18px; vertical-align:central">&nbspDownload updated rules template</button>
+                                </form>
+                            </td>
+                            <td>
+                                <button class="popUpBtn"  onclick="previewfunc()" data-modal="myModal1" style="background-color:transparent;color:black;border: 1px solid #0066FF;margin-left:5px;font-size:10px;height:26px;width:135px;border-radius:3px;vertical-align:bottom;margin-top:18px">Preview Project & Edit</button>
+
+                                <!-- The Modal1 -->
+                                <div id="myModal1" class="modal">
+
+                                    <!-- Modal content -->
+                                    <div class="modal-content1">
+                                        <div class="modal-header">
+                                            <span class="close">×</span>
+
+
+
+
+                                        </div>
+                                        <div class="modal-body" style="width:1000px">
+                                            <form action="http://localhost:5000/{{project}}/preview" method="POST">
+                                                <table>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="opacity:0.6;">Header: </td>
+                                                        <td><input contenteditable="True" id="HeaderPreview" type="text" name="Header" style="width:900px;height:30px;border-radius:2px;color:black;font-size:10px;border-width:thin;"></input></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="opacity:0.6;">Description: </td>
+                                                        <td><input contenteditable="True" id="DescriptionPreview" type="text" name="Description" style="width:900px;height:80px;border-radius:2px;color:black;font-size:10px;border-width:thin;"></input></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="opacity:0.6;">Content: </td>
+                                                        <td><textarea contenteditable="True" id="ContentPreview" type="text" name="Content" style="width:900px;height:270px;border-radius:2px;color:black;font-size:10px;border-width:thin;"></textarea></td>
+                                                    </tr>
+                                                </table>
+
+                                                <input class="btn btn-primary" style="font-size:8px;background-color:transparent;color:black;border: 1px solid #0066FF;" type="submit" value="Update" />
+
+
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </td>
+                            
+                                
+
+                                <!-- The Modal1 -->
+                                <!--<div id="myModal2" class="modal1">
+
+
+                                  <div class="modal-content2">
+                                    <div class="modal-header">
+                                      <span class="close">×</span>
+                                 </div>
+                                    <div class="modal-body" style="width:300px">
+                                    <form action="http://localhost:5000/{{project}}/sortby" method = "POST">
+                                    <table>
+                                    <tr>
+                                    <th>Sheet Name </th>
+                                    <th>Sort By Drop Down</th>
+                                    </tr>
+                                    <tr>
+                                    <td><input id="SheetName" type="text" name="SheetName" style="width:150px;height:30px;border-radius:2px;color:black;font-size:10px;border-width:thin;"></input></td>
+                                    <td><select id="yourdropdownid" name="Paragraph_Config" style="font-size:10px;" style="width:150px;height:30px;border-radius:2px;color:black;font-size:10px;border-width:thin;"></select></td>
+                                    </tr>
+                                    </table>
+                                    <input class="btn btn-primary" style="font-size:8px;" type="submit" value="Update" />
+                                    </form>
+                                    </div>
+                                  </div>
+
+                                </div>-->
+                            
+
+                            <td>
+                                <form action="http://localhost:5000/{{project}}/format" method="POST">
+                                    <select id="format" name="format" onchange="this.form.submit();" onchange="GetSelectedItem('format');" style="font-size:13px;border-radius:5px;">
+										<option value="#word" {% if fmat == "#word" %} selected="selected" {% endif %}>Word</option>
+										<option value="#pdf" {% if fmat == "#pdf" %} selected="selected" {% endif %}>Pdf</option>
+									</select>
+									
+								</form>
+									<form action="http://localhost:5000/{{project}}/output" method="GET">
+									<button class="btn btn-primary" style="background-color:transparent;color:black;height:26px;border: 1px solid #0066FF;font-size:10px;margin-left:5px;margin-top:18px">Download Processed File</button></td>
+                                
+									</div>
+									</form>
+								
+                </td>
+                <td>
+                    <div class="popup" onclick="myFunction()" style="font-size:10px;text-align:center;margin-left:400px;">
+                        <i style="font-size:20px;color:blue;" class="fa">&#xf059;</i>
+                        <span class="popuptext" id="myPopup" style="margin-top:1000px;height:590px;width:220px;">
+                            <br />
+                            <p>&nbspSyntax for Business Rules</p>
+                            <br></br>
+                            <p>&nbspComparison Operators:</p>
+                            <p>&nbsp1. Less than                : < </p>
+                            <p>&nbsp2. Greater than             : > </p>
+                            <p>&nbsp3. Less than or Equal to    : <=</p>
+                            <p>&nbsp4. Greater than or Equal to : >=</p>
+                            <p>&nbsp5. Not Equal to             : !=</p>
+                            <p>&nbsp6. Equal to                 : ==</p>
+                            <br>
+                            <p>&nbspConditional Operators</p>
+                            <p>&nbsp1. And : and         </p>
+                            <p>&nbsp2. OR  : or          </p>
+                            <br>
+                            <p>&nbspDrag & Drop Columns from</p>
+                            <p>Input File Column List on</p>
+                            <p>left side pane</p>
+                            <br>
+                            <p>Eg:</p>
+                            <p>col1>=col2</p>
+                            <br>
+                            <p>&nbspMultiple Conditions: </p>
+                            <p>&nbsp(col1 > col2) and      </p>
+                            <p>&nbsp(col2 = col3) and      </p>
+                            <p>&nbsp(col4 > 40 or col5 = 5)</p>
+                            <br>
+                        </span>
+                    </div>
+                </td>
+				
+
+
+
+        </table>
+    </div>
+
+
+
+
+
+
+    <p id="export"></p>
+
+
+
+    <!-- partial -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+    <script src='https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+    <script>
+
+//updated business rules
+//function updateRules() 
+//{
+//  alert("Updated Business Rules Successfully");
+//}
+//
+//function myClick()
+//{
+//$("#export-btn").click()
+//}
+
+//BusinessRules Help pop-up
+ function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+//Preview popup
+$(document).ready(function(){
+	$('.popUpBtn').on('click', function(){
+		$('#'+$(this).data('modal')).css('display','block');
+	})
+
+
+	$('span.close').on('click', function(){
+		$('.modal').css('display','none');
+	})
+
+
+	$(window).on('click', function(event){
+		if (jQuery.inArray( event.target, $('.modal') ) != "-1") {
+        	$('.modal').css('display','none');
+    	}
+	})
+
+
+
+})
+
+//Preview popup
+$(document).ready(function(){
+	$('.popUpBtn1').on('click', function(){
+
+	document.getElementById("myModal2").style.display = "block";
+		//$('#'+$(this).data('modal1')).css('display','block');
+
+	})
+
+
+	$('span.close').on('click', function(){
+		$('.modal1').css('display','none');
+	})
+
+
+	$(window).on('click', function(event){
+		if (jQuery.inArray( event.target, $('.modal1') ) != "-1") {
+        	$('.modal1').css('display','none');
+    	}
+	})
+
+
+
+})
+
+
+
+//Business Rules Template
+
+var $TABLE = $('#table');
+var $BTN = $('#export-btn');
+var $EXPORT = $('#export');
+
+//Add New row to table
+$('.table-add').click(function () {
+  var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
+  $TABLE.find('table').append($clone);
+  setTimeout(myFunction,2000);
+  $("#export-btn").click()
+  setTimeout(myFunction,6000);
+  location.reload();
+  alert('Done')  
+});
+
+//Delete Table row
+$('.table-remove').click(function () {
+  $(this).closest('tr').detach();
+});
+
+$('.table-up').click(function () {
+  var $row = $(this).closest('tr');
+  if ($row.index() === 1) return; // Don't go above the header
+  $row.prev().before($row.get(0));
+});
+
+$('.table-down').click(function () {
+  var $row = $(this).parents('tr');
+  $row.next().after($row.get(0));
+});
+
+// A few jQuery helpers for exporting only
+jQuery.fn.pop = [].pop;
+jQuery.fn.shift = [].shift;
+
+$BTN.click(function () {
+  var $rows = $TABLE.find('tr:not(:hidden)');
+  var headers = [];
+  var data = [];
+
+  // Get the headers (add special header logic here)
+  $($rows.shift()).find('th:not(:empty)').each(function () {
+    headers.push($(this).text().toLowerCase());
+  });
+
+  // Turn all existing rows into a loopable array
+  $rows.each(function () {
+    var $td = $(this).find('td');
+    var h = {};
+
+    // Use the headers from earlier to name our hash keys
+    headers.forEach(function (header, i) {
+      h[header] = $td.eq(i).text();
+    });
+
+    data.push(h);
+  });
+
+  // Output the result
+ // $EXPORT.text(JSON.stringify(data));
+
+  $.ajax({
+  type: "POST",
+  contentType: "application/json; charset=utf-8",
+  url: "http://127.0.0.1:5000/{{project}}",
+  data: JSON.stringify(data),
+  success: function (data) {
+      console.log(data)
+  },error: function(err) {
+      console.log(err);
+  }
+  ,
+  dataType: "json"
+  });
+
+});
+
+//javascript to read header and description
+
+ $.ajax({
+ dataType: "json",
+ type: "GET",
+ contentType: "application/json; charset=utf-8",
+ url: "http://127.0.0.1:5000/{{project}}/static",
+ success (response) {
+     console.log(response.Header)
+  document.getElementById("Header").value = response.header
+  document.getElementById("Description").value = response.description
+
+ }
+ });
+
+ //Preview Project Get call
+ function previewfunc(){
+  $.ajax({
+ dataType: "json",
+ type: "GET",
+ contentType: "application/json; charset=utf-8",
+ url: "http://127.0.0.1:5000/{{project}}/preview",
+ success (response) {
+     console.log(response.Header)
+  document.getElementById("HeaderPreview").value = response.Header
+  document.getElementById("DescriptionPreview").value = response.Description
+  document.getElementById("ContentPreview").value = response.Content
+
+ }
+ })};
+
+ //Sort By Get Call
+  function prefunc(){
+  $.ajax({
+ dataType: "json",
+ type: "GET",
+ contentType: "application/json; charset=utf-8",
+ url: "http://127.0.0.1:5000/{{project}}/sortby",
+ success (response) {
+  console.log(response)
+  //console.log(JSON.stringify(response))
+ // console.log(response.)
+ // for (var i = 0; i < response.length; i++)
+ // {  console.log('h1')
+ //    console.log('h')
+ //    var object = response[i];
+ //    console.log(object)
+//  for (var property in object) {
+//    alert('item ' + i + ': ' + property + '=' + object[property]);
+//
+ // }
+
+  //console.log()
+  document.getElementById("SheetName").value = response.SheetName
+  var dllist= $('#yourdropdownid');
+  $.each(response.ColumnList,function(i){
+    dllist.append(
+        $('<option></option>').val(response.ColumnList[i]).html(response.ColumnList[i])
+    );
+
+});
+
+ }
+ })};
+
+//javascript for drag and dropzone
+
+recursivelyWrapTextNodes = function($node) {
+  //console.log($node.contents());
+  $node.contents().each(function() {
+        var $this = $(this);
+        //console.log("$this", $this)
+
+        if ($.trim($this.text()).length === 0) {
+            //console.log("This is empty space!");
+        } else if ((this.nodeType === 3) && ($this.text().substr(0, 2) != "${")) { //Node.TEXT_NODE (IE...)
+            //Also check to make sure text node is not a ".token"
+
+          var spans = $.each($this.text().split(" "), function(index, element) {
+                var $span = $("<span class='spanEl'></span>");
+                $span.text(element + " ");
+                $span.insertBefore($this);
+            });
+            $this.remove();
+        } else if ((this.nodeType === 1) && (!$this.hasClass("spanEl")) && (!$this.hasClass("token"))) //Node.ELEMENT_NODE
+          //If you run into an element that is not spanEl recursively loop through it so it can be added.
+          //If you run into a ".token" ignore it too
+
+          recursivelyWrapTextNodes($this)
+
+          ;
+    });
+};
+
+
+
+$(".text-editable").sortable({
+    connectWith: ".text-editable",
+    items: ".token, .spanEl",
+    cursor: "move",
+    tolerance: "pointer",
+    forcePlaceholderSize: true,
+    placeholder: "token-placeholder",
+    activate: function(event, ui) {
+        //recursivelyWrapTextNodes($(this)); //Wrap "span" elements around all text nodes in each ".text-editable" div.
+
+        //$(".text-editable").sortable("refresh"); //Refresh sortable after spans added to text nodes
+    },
+    stop: function(event, ui) {
+        //$(this).find(".spanEl").contents().unwrap(); //After dragging a token onto a "contenteditable" element remove the element "span" tags.
+    },
+  over: function( event, ui ) {
+    var $this = $(this);
+    recursivelyWrapTextNodes($this); //Wrap "span" elements around all text nodes in each ".text-editable" div.
+
+        $this.sortable("refresh"); //Refresh sortable after spans added to text nodes
+  },
+  out: function( event, ui ) {
+    var $this = $(this);
+    $this.find(".spanEl").contents().unwrap(); //After dragging a token onto a "contenteditable" element remove the element "span" tags.
+  }
+
+});
+//.disableSelection();
+
+$(".token").draggable({
+    connectToSortable: ".text-editable",
+    cursor: "move",
+    helper: "clone",
+    revert: "invalid",
+    appendTo: "body"
+});
+
+    </script>
+    </td>
+    </tr>
+    </table>
+    </div>
+</body>
+</html>
